@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ecommerceapp/screens/products/utils/sharedPrefrence.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,10 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
 
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3), () {
-      return Navigator.pushReplacementNamed(context, 'home');
-    });
-
+    checkLogin();
     return SafeArea(
         child: Scaffold(
           body: Center(
@@ -27,5 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         ));
+  }
+  void checkLogin() async {
+    bool? status = await getisloginSHP();
+    if (status == true) {
+      Timer(Duration(seconds: 3),
+            () => Navigator.pushReplacementNamed(context, 'home'),);
+    } else {
+      Timer(Duration(seconds: 3),
+            () => Navigator.pushReplacementNamed(context, 'login'),);
+    }
   }
 }

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:ecommerceapp/screens/products/modal/ProductModal.dart';
+import 'package:ecommerceapp/screens/products/utils/sharedPrefrence.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as storehttp;
 
 class ProductProvider extends ChangeNotifier {
+  String? value;
   List JsonList = [];
   List<ProductModal> productList = [];
   List<ProductModal> filterList = [];
@@ -35,6 +37,7 @@ class ProductProvider extends ChangeNotifier {
       if (productList[i].price! >= 50 && productList[i].price! <= 99) {
         filterList.add(productList[i]);
       }
+
     }
     productList = filterList;
     notifyListeners();
@@ -49,4 +52,11 @@ class ProductProvider extends ChangeNotifier {
     productList = filterList;
     notifyListeners();
   }
+ProductModal? click;
+  void getuser() async {
+
+    value = await getusername();
+    notifyListeners();
+  }
 }
+

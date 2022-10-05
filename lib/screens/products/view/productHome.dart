@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:ecommerceapp/screens/products/modal/ProductModal.dart';
 import 'package:ecommerceapp/screens/products/provider/homeProvider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -121,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "Hi, Jack Sardhara Par....",
                             style: TextStyle(
                                 color: Color(0xff131313),
-                                fontSize: 18,
+                                fontSize: MediaQuery.of(context).size.height/42,
                                 fontWeight: FontWeight.bold),
                           )
                         ],
@@ -164,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 25,
                 ),
                 Text(
-                  "Welcome To The Ghatiyazon Our new Ecommerce App",
+                  "Hy ${Provider.of<ProductProvider>(context,listen: true).value}Welcome To The Ghatiyazon Our new Ecommerce App",
                   style: TextStyle(
                     color: Color(0xff000000),
                     fontSize: 20,
@@ -182,74 +185,150 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Text(
-            'Welcome To The Ghatiyazon',
-            style: TextStyle(
-              fontSize: 20,
-              color: Color(0xffaf6906),
+      body: WillPopScope(
+        onWillPop: dialog,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Welcome To The Ghatiyazon',
+              style: TextStyle(
+                fontSize: 20,
+                color: Color(0xffaf6906),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FutureBuilder(
-              future: profalse!.getUserData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  Text('${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  List listdata = snapshot.data!;
-                  return Expanded(
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      itemCount: listdata.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          height: 180,
-                          width: 170,
-                          margin: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Row(
+            SizedBox(
+              height: 10,
+            ),
+            FutureBuilder(
+                future: profalse!.getUserData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    Text('${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    List listdata = snapshot.data!;
+                    return Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemCount: listdata.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              profalse!.click = ProductModal(
+                                image: '${listdata[index].image}',
+                                id: listdata[index].id,
+                                title: '${listdata[index].title}',
+                                price: listdata[index].price,
+                                description: '${listdata[index].description}',
+                                rating: listdata[index].rating,
+                                category: listdata[index].category,
+                              );
+                              Navigator.pushNamed(context, 'item');
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all()),
+                              margin: EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.network(
                                     '${listdata[index].image}',
-                                    height: 110,
-                                    width: 87,
+                                    height:
+                                        MediaQuery.of(context).size.height / 10.37,
+                                    width:
+                                        MediaQuery.of(context).size.width / 5,
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    height: 5,
                                   ),
-                                  Column(
-                                    children: [
-                                      Text('${listdata[index].price} \$'),
-                                      Text('${listdata[index].rating!.rate} ★'),
-                                    ],
+                                  Text(
+                                    '${listdata[index].price} \$',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                30),
                                   ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          '${listdata[index].title}',
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  33),
+                                        ),
+                                      )),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    '${listdata[index].rating!.rate} ★',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                30),
+                                  ),
+
                                 ],
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('${listdata[index].title}',
-                                      softWrap: false,
-                                      overflow: TextOverflow.ellipsis)),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  return CircularProgressIndicator(
+                    color: Color(0xffe05c28),
+                    backgroundColor: Color(0xffd0ad9f),
                   );
-                }
-                return CircularProgressIndicator();
-              })
-        ],
+                })
+          ],
+        ),
       ),
     ));
+  }
+
+  Future<bool> dialog() async {
+    back();
+    return await false;
+  }
+
+  void back() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            content: Text(
+              '!! Are You Sure? \n You Want to Quit !!',
+              style: TextStyle(fontSize: 16),
+            ),
+            actions: [
+              CupertinoButton(
+                  child: Text(
+                    'Yes',
+                    style: TextStyle(color: Color(0xffff0000)),
+                  ),
+                  onPressed: () {
+                    exit(0);
+                  }),
+              CupertinoButton(
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+            ],
+          );
+        });
   }
 }
