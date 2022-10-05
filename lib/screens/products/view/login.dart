@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController txtusername = TextEditingController();
   TextEditingController txtpassword = TextEditingController();
+  TextEditingController txtnumber = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,6 +70,20 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
+                    ),SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      controller: txtnumber,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        hintText: 'Enter Number',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 30,
@@ -77,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () async {
                         String username = txtusername.text;
                         String password = txtpassword.text;
+                        String num = txtnumber.text;
                         String? SHPusername = await getusername();
                         String? SHPpassword = await getuserpwd();
                         if (username == SHPusername && password == SHPpassword) {

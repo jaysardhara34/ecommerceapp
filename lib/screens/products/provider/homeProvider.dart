@@ -8,6 +8,8 @@ import 'package:http/http.dart' as storehttp;
 
 class ProductProvider extends ChangeNotifier {
   String? value;
+  String? numvalue;
+
   List JsonList = [];
   List<ProductModal> productList = [];
   List<ProductModal> filterList = [];
@@ -53,9 +55,11 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 ProductModal? click;
+
   void getuser() async {
 
     value = await getusername();
+    numvalue = await getnumber();
     notifyListeners();
   }
 }

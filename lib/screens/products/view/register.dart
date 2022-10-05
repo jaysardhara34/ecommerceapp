@@ -11,6 +11,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController txtusername = TextEditingController();
   TextEditingController txtpassword = TextEditingController();
+  TextEditingController txtnumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        createUserSHP(txtusername.text, txtpassword.text);
+                        createUserSHP(txtusername.text, txtpassword.text,txtnumber.text);
                         Navigator.pop(context);
                       },
                       child: Text('Register'),

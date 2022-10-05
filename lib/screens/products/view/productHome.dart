@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Provider.of<ProductProvider>(context, listen: false).getUserData();
+    Provider.of<ProductProvider>(context, listen: false).getuser();
   }
 
   @override
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 Container(
-                  height: 125,
+                  height: 150,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -121,19 +122,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                           ),
                           Text(
-                            "Hi, Jack Sardhara Par....",
+                            "Hi, ${protrue!.value}",
                             style: TextStyle(
                                 color: Color(0xff131313),
-                                fontSize: MediaQuery.of(context).size.height/42,
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 42,
                                 fontWeight: FontWeight.bold),
-                          )
+                          ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "7041648493    |   Ghatiyazon App",
+                            "${protrue!.numvalue}    |   Ghatiyazon App",
                             style: TextStyle(color: Color(0xff000000)),
                           ),
                         ],
@@ -159,7 +161,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
-                      )
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xffb46613)),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, 'login');
+                          },
+                          child: Text('Logout'))
                     ],
                   ),
                 ),
@@ -167,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 25,
                 ),
                 Text(
-                  "Hy ${Provider.of<ProductProvider>(context,listen: true).value}Welcome To The Ghatiyazon Our new Ecommerce App",
+                  "Welcome To The Ghatiyazon Our new Ecommerce App",
                   style: TextStyle(
                     color: Color(0xff000000),
                     fontSize: 20,
@@ -187,113 +196,118 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: WillPopScope(
         onWillPop: dialog,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome To The Ghatiyazon',
-              style: TextStyle(
-                fontSize: 20,
-                color: Color(0xffaf6906),
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                'Welcome To The Ghatiyazon',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xffaf6906),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            FutureBuilder(
-                future: profalse!.getUserData(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    Text('${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    List listdata = snapshot.data!;
-                    return Expanded(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemCount: listdata.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              profalse!.click = ProductModal(
-                                image: '${listdata[index].image}',
-                                id: listdata[index].id,
-                                title: '${listdata[index].title}',
-                                price: listdata[index].price,
-                                description: '${listdata[index].description}',
-                                rating: listdata[index].rating,
-                                category: listdata[index].category,
-                              );
-                              Navigator.pushNamed(context, 'item');
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all()),
-                              margin: EdgeInsets.all(20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.network(
-                                    '${listdata[index].image}',
-                                    height:
-                                        MediaQuery.of(context).size.height / 10.37,
-                                    width:
-                                        MediaQuery.of(context).size.width / 5,
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    '${listdata[index].price} \$',
-                                    style: TextStyle(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                30),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: Text(
-                                          '${listdata[index].title}',
-                                          softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  33),
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    '${listdata[index].rating!.rate} ★',
-                                    style: TextStyle(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                30),
-                                  ),
-
-                                ],
+              SizedBox(
+                height: 10,
+              ),
+              FutureBuilder(
+                  future: profalse!.getUserData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      Text('${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      List listdata = snapshot.data!;
+                      return Expanded(
+                        child: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemCount: listdata.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                profalse!.click = ProductModal(
+                                  image: '${listdata[index].image}',
+                                  id: listdata[index].id,
+                                  title: '${listdata[index].title}',
+                                  price: listdata[index].price,
+                                  description: '${listdata[index].description}',
+                                  rating: listdata[index].rating,
+                                  category: listdata[index].category,
+                                );
+                                Navigator.pushNamed(context, 'item');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all()),
+                                margin: EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.network(
+                                      '${listdata[index].image}',
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10.37,
+                                      width:
+                                          MediaQuery.of(context).size.width / 5,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      '${listdata[index].price} \$',
+                                      style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              30),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
+                                          child: Text(
+                                            '${listdata[index].title}',
+                                            softWrap: true,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    33),
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      '${listdata[index].rating!.rate} ★',
+                                      style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              30),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    return CircularProgressIndicator(
+                      color: Color(0xffe05c28),
+                      backgroundColor: Color(0xffd0ad9f),
                     );
-                  }
-                  return CircularProgressIndicator(
-                    color: Color(0xffe05c28),
-                    backgroundColor: Color(0xffd0ad9f),
-                  );
-                })
-          ],
+                  })
+            ],
+          ),
         ),
       ),
     ));
