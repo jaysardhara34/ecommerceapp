@@ -74,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     TextField(
+                      keyboardType: TextInputType.numberWithOptions(),
                       controller: txtnumber,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
@@ -95,7 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                         String num = txtnumber.text;
                         String? SHPusername = await getusername();
                         String? SHPpassword = await getuserpwd();
-                        if (username == SHPusername && password == SHPpassword) {
+                        String? SHPnum = await getnumber();
+                        if (username == SHPusername && password == SHPpassword && num == SHPnum) {
                           islogin(true);
                           Navigator.pushReplacementNamed(context, "home");
                         } else {

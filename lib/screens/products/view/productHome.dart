@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ecommerceapp/screens/products/modal/ProductModal.dart';
 import 'package:ecommerceapp/screens/products/provider/homeProvider.dart';
+import 'package:ecommerceapp/screens/products/utils/sharedPrefrence.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -166,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xffb46613)),
                           onPressed: () {
+                            cleanSHP();
                             Navigator.pushReplacementNamed(context, 'login');
                           },
                           child: Text('Logout'))
@@ -247,8 +249,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Image.network(
                                       '${listdata[index].image}',
                                       height:
-                                          MediaQuery.of(context).size.height /
-                                              10.37,
+                                          MediaQuery.of(context).size.height *
+                                              0.10,
                                       width:
                                           MediaQuery.of(context).size.width / 5,
                                     ),
@@ -260,8 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .width /
-                                              30),
+                                                  .width *0.03),
                                     ),
                                     SizedBox(
                                       height: 5,
@@ -278,20 +279,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: TextStyle(
                                                 fontSize: MediaQuery.of(context)
                                                         .size
-                                                        .width /
-                                                    33),
+                                                        .width *0.03),
                                           ),
                                         )),
                                     SizedBox(
-                                      height: 5,
+                                      height: 3,
                                     ),
                                     Text(
                                       '${listdata[index].rating!.rate} ★',
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .width /
-                                              30),
+                                                  .width *0.032),
                                     ),
                                   ],
                                 ),
